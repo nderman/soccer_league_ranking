@@ -32,7 +32,8 @@ RSpec.describe(League) do
         test_in_file = input_file(matches)
         described_class.new.points(test_in_file.path, test_out_file.path)
         expect(File.open(test_out_file.path).readlines).to(eq(
-          ["1. Snakes, 4 pts\n", "2. Tarantulas, 3 pts\n", "3. Lions, 2 pts\n", "4. FC Awesome, 1 pt\n", "5. Grouches, 0 pts\n"]
+          ["1. Snakes, 4 pts\n", "2. Tarantulas, 3 pts\n",
+           "3. Lions, 2 pts\n", "4. FC Awesome, 1 pt\n", "5. Grouches, 0 pts\n"]
         ))
         test_in_file.unlink
       end
@@ -41,7 +42,8 @@ RSpec.describe(League) do
         test_in_file = input_file(matches)
         described_class.new.points(test_in_file.path, test_out_file.path)
         expect(File.open(test_out_file.path).readlines).to(eq(
-          ["1. Artichokes, 1 pt\n", "2. Badgers, 1 pt\n", "3. Capybraras, 1 pt\n", "4. Grouches, 1 pt\n", "5. Snakes, 1 pt\n", "6. Zebras, 1 pt\n"]
+          ["1. Artichokes, 1 pt\n", "2. Badgers, 1 pt\n", "3. Capybraras, 1 pt\n",
+           "4. Grouches, 1 pt\n", "5. Snakes, 1 pt\n", "6. Zebras, 1 pt\n"]
         ))
         test_in_file.unlink
       end
