@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require './classes/match.rb'
 class League
-  def points(source, target)
+  def points(source = 'input.txt', target = "output.txt")
     league_points = []
 
     File.open(source) do |file|

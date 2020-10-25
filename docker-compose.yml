@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  soccer_league_run:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    entrypoint: [ "ruby", "run.rb" ]
+    command: [ "input.txt", "output.txt" ]
+  soccer_league_spec:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    entrypoint: [ "bundle", "exec", "rspec", "-fd" ]
+    command: [ "spec" ]
