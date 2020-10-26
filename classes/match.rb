@@ -1,8 +1,6 @@
 # frozen_string_literal: true
-# validation - score returned correctly
-# teams can't be same
-# scores must be valid (not negative or non integer)
 class Match
+  class Error < StandardError; end
   def initialize(match_result)
     match_result = match_result.strip.split(', ').map! do |item|
       item = item.rpartition(' ')
@@ -13,6 +11,7 @@ class Match
     @score1 = match_result[1]
     @team2 = match_result[2]
     @score2 = match_result[3]
+    validate_match
   end
 
   def league_points
@@ -31,5 +30,15 @@ class Match
       team2_points[@team1] = 0
     end
     [team1_points, team2_points]
+  end
+
+  private
+
+  def validate_match
+    raise Error, "Invalid match" if @team1 == @team2
+    [@score1, @score2].each do |score|
+      raise Error, "Missing score" if score.nil?
+      raise Error, "Invalid score" unless /\A\d+\z/.match(score)
+    end
   end
 end

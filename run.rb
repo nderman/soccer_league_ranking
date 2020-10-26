@@ -1,3 +1,3 @@
 require './classes/league.rb'
 
-League.new.points(ARGV[0], ARGV[1])
+p League.new.points(ARGV[0], ARGV[1])

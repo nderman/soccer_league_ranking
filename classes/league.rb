@@ -5,8 +5,10 @@ class League
     league_points = []
 
     File.open(source) do |file|
-      file.each_line do |line|
+      file.each_line.with_index do |line, index|
         league_points += Match.new(line).league_points
+      rescue Match::Error => exception
+        return "Match file error on line #{index + 1} - #{exception.message}"
       end
     end
     # merge and add league points by team name and then sort by score then name
@@ -18,5 +20,6 @@ class League
         f.puts "#{index + 1}. #{key}, #{value} #{value == 1 ? 'pt' : 'pts'}"
       end
     end
+    "Successfully created #{target}"
   end
 end

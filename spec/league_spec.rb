@@ -11,9 +11,9 @@ RSpec.describe(League) do
       f.close
     end
   end
-  context "with a valid match results file" do
-    describe '#points' do
-      let(:matches) { ["Lions 3, Snakes 3", "Tarantulas 1, FC Awesome 0", "Lions 1, FC Awesome 1"] }
+
+  describe '#points' do
+    context "with a valid match results file" do
       let(:test_out_file) { Tempfile.new('output') }
       after do
         test_out_file.unlink
@@ -46,6 +46,26 @@ RSpec.describe(League) do
            "4. Grouches, 1 pt\n", "5. Snakes, 1 pt\n", "6. Zebras, 1 pt\n"]
         ))
         test_in_file.unlink
+      end
+    end
+    context "with an invalid match results file" do
+      it "Returns the invalid line for a negative score" do
+        matches = ["Zebras 3, Artichokes -1", "Badgers 1, Capybraras 1", "Snakes 3, Grouches 3"]
+        test_in_file = input_file(matches)
+        expect(described_class.new.points(test_in_file.path, "out.txt"))
+          .to(eql("Match file error on line 1 - Invalid score"))
+      end
+      it "Returns the invalid line for an invalid match (same team)" do
+        matches = ["Zebras 3, Artichokes 1", "Badgers 1, Badgers 1", "Snakes 3, Grouches 3"]
+        test_in_file = input_file(matches)
+        expect(described_class.new.points(test_in_file.path, "out.txt"))
+          .to(eql("Match file error on line 2 - Invalid match"))
+      end
+      it "Returns the invalid line for an invalid score (missing score)" do
+        matches = ["Zebras 3, Artichokes 1", "Badgers 1, Badgers", "Snakes 3, Grouches 3"]
+        test_in_file = input_file(matches)
+        expect(described_class.new.points(test_in_file.path, "out.txt"))
+          .to(eql("Match file error on line 2 - Invalid score"))
       end
     end
   end

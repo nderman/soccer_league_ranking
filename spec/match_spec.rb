@@ -21,6 +21,20 @@ RSpec.describe(Match) do
         expect(@match_instance.instance_variable_get(:@score2)).to(eql("0"))
       end
     end
+    context "with invalid match result" do
+      it "raises an exception if the same team is listed for both teams" do
+        match_result = "Montrose Magpies 5, Montrose Magpies 0\n"
+        expect { described_class.new(match_result) }.to(raise_error(Match::Error, "Invalid match"))
+      end
+      it "raises an exception if a score is negative" do
+        match_result = "Montrose Magpies -1, Not Montrose Magpies 2\n"
+        expect { described_class.new(match_result) }.to(raise_error(Match::Error, "Invalid score"))
+      end
+      it "raises an exception if a score is missing" do
+        match_result = "Montrose Magpies 1\n"
+        expect { described_class.new(match_result) }.to(raise_error(Match::Error, "Missing score"))
+      end
+    end
   end
   describe '#league_points' do
     context "team one winning" do
