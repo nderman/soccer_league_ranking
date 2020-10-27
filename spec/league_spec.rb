@@ -62,7 +62,7 @@ RSpec.describe(League) do
           .to(eql("Match file error on line 2 - Invalid match"))
       end
       it "Returns the invalid line for an invalid score (missing score)" do
-        matches = ["Zebras 3, Artichokes 1", "Badgers 1, Badgers", "Snakes 3, Grouches 3"]
+        matches = ["Zebras 3, Artichokes 1", "Badgers 1, Not Badgers", "Snakes 3, Grouches 3"]
         test_in_file = input_file(matches)
         expect(described_class.new.points(test_in_file.path, "out.txt"))
           .to(eql("Match file error on line 2 - Invalid score"))
